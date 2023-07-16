@@ -1,0 +1,7 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\Timer0_Init.obj",
+".\Objects\MatrinKey.obj",
+".\Objects\Delay.obj" 
+TO ".\Objects\control led" 
+PRINT(".\Listings\control led.m51") RAMSIZE(256) 
