@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\Delay.obj",
+".\Objects\MatrixLed.obj" 
+TO ".\Objects\dianzheng" 
+PRINT(".\Listings\dianzheng.m51") RAMSIZE(256) 
