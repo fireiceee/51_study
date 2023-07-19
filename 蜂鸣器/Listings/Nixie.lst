@@ -1,0 +1,59 @@
+C51 COMPILER V9.54   NIXIE                                                                 07/18/2023 21:59:42 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE NIXIE
+OBJECT MODULE PLACED IN .\Objects\Nixie.obj
+COMPILER INVOKED BY: C:\Users\22308\Desktop\keil\C51\BIN\C51.EXE Nixie.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\Nixie.lst) TABS(2) OBJECT(.\Objects\Nixie.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include"Delay.h"
+   3          unsigned char table[10]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
+   4          
+   5          /**
+   6          * @brief 用数码管显示数字
+   7          * @param Location 要显示的位置 Number要显示的数字
+   8          */
+   9          void Nixie(unsigned char Location,unsigned char Number)
+  10          {
+  11   1          switch (Location)
+  12   1          {
+  13   2          case 1:
+  14   2              P2_4=1;P2_3=1;P2_2=1;break;
+  15   2          case 2:
+  16   2              P2_4=1;P2_3=1;P2_2=0;break;    
+  17   2          case 3:
+  18   2              P2_4=1;P2_3=0;P2_2=1;break;
+  19   2          case 4:
+  20   2              P2_4=1;P2_3=0;P2_2=0;break;
+  21   2          case 5:
+  22   2              P2_4=0;P2_3=1;P2_2=1;break;
+  23   2          case 6:
+  24   2              P2_4=0;P2_3=1;P2_2=0;break;
+  25   2          case 7:
+  26   2              P2_4=0;P2_3=0;P2_2=1;break;
+  27   2          case 8:
+  28   2              P2_4=0;P2_3=0;P2_2=0;break;
+  29   2          default:
+  30   2              break;
+  31   2          }
+  32   1          P0=table[Number];
+  33   1          Delay(1);
+  34   1          P0=0x00;
+  35   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    109    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
