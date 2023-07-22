@@ -1,0 +1,9 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\LCD1602.obj",
+".\Objects\Delay.obj",
+".\Objects\MatrinKey.obj",
+".\Objects\I2C.obj",
+".\Objects\AT24C02.obj" 
+TO ".\Objects\AT24c02" 
+PRINT(".\Listings\AT24c02.m51") RAMSIZE(256) 

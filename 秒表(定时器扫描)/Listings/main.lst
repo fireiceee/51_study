@@ -1,0 +1,120 @@
+C51 COMPILER V9.54   MAIN                                                                  07/22/2023 17:50:57 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Users\22308\Desktop\keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRIN
+                    -T(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include"Key.h"
+   3          #include"Timer0_Init.h"
+   4          #include"Nixie.h"
+   5          #include"Delay.h"
+   6          #include"AT24C02.h"
+   7          unsigned char KeyNumber;
+   8          unsigned char Temp;
+   9          unsigned char MiniSec,Sec,Min;
+  10          unsigned char ClockFlag;
+  11          void main()
+  12          {
+  13   1        Timer0_Init();
+  14   1        while(1)
+  15   1        {
+  16   2            KeyNumber=Key();
+  17   2            if(KeyNumber)
+  18   2            { 
+  19   3                if(KeyNumber==1)
+  20   3                {
+  21   4                    Sec=0;
+  22   4                    Min=0;
+  23   4                    MiniSec=0;
+  24   4                }
+  25   3                if(KeyNumber==2)
+  26   3                { 
+  27   4                    ClockFlag=!ClockFlag;
+  28   4                }
+  29   3                if(KeyNumber==3)
+  30   3                {
+  31   4                    AT24C02_WriteByte(0,Min);
+  32   4                    Delay(5);
+  33   4                    AT24C02_WriteByte(1,Sec);
+  34   4                    Delay(5);
+  35   4                    AT24C02_WriteByte(2,MiniSec);
+  36   4                    Delay(5);
+  37   4                }
+  38   3                if(KeyNumber==4)
+  39   3                {
+  40   4                    Min=AT24C02_ReceiveByte(0);
+  41   4                    Sec=AT24C02_ReceiveByte(1);
+  42   4                    MiniSec=AT24C02_ReceiveByte(2);
+  43   4                }
+  44   3            }
+  45   2            Nixie_Show(1,Min/10);
+  46   2            Nixie_Show(2,Min%10);
+  47   2            Nixie_Show(3,Sec/10);
+  48   2            Nixie_Show(4,Sec%10);
+  49   2            Nixie_Show(5,MiniSec/10);
+  50   2            Nixie_Show(6,MiniSec%10);
+  51   2        }
+  52   1      }
+  53          
+  54          void Sec_Loop()
+C51 COMPILER V9.54   MAIN                                                                  07/22/2023 17:50:57 PAGE 2   
+
+  55          {
+  56   1          MiniSec++;
+  57   1          if(MiniSec>=100)
+  58   1          {
+  59   2              MiniSec=0;
+  60   2              Sec++;
+  61   2              if(Sec>=60)
+  62   2              {
+  63   3                  Sec=0;
+  64   3                  Min++;
+  65   3                  if(Min>=60)
+  66   3                    Min=0;
+  67   3              }
+  68   2          }
+  69   1      }
+  70          void Timer0_Routine() interrupt 1
+  71          {
+  72   1          static unsigned int count,count2,count3;
+  73   1          TH0=64535/256;
+  74   1          TL0=64535%256;
+  75   1          count++;
+  76   1          count2++;
+  77   1          count3++;
+  78   1          if(count>=20)
+  79   1          {
+  80   2              count=0;
+  81   2              KeyLoop();
+  82   2          }
+  83   1          if(count2>=2)
+  84   1          { 
+  85   2              count2=0;
+  86   2              NixieLoop();
+  87   2          }
+  88   1          if(count3>=10)
+  89   1          {
+  90   2              count3=0;
+  91   2              if(ClockFlag==1)
+  92   2              Sec_Loop();
+  93   2          }
+  94   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    376    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
